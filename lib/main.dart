@@ -1,115 +1,163 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: unrelated_type_equality_checks, avoid_print
 
-void main() {
-  runApp(const MyApp());
+import 'dart:io';
+
+List game = [
+  ['1', '2', '3'],
+  ['4', '5', '6'],
+  ['7', '8', '9']
+];
+String player = 'X';
+//for drawing the structure of the tic tac toe
+void draw() {
+  print('${game[0][0]}  |  ${game[0][1]}  |  ${game[0][2]}');
+  print('${game[1][0]}  |  ${game[1][1]}  |  ${game[1][2]}');
+  print('${game[2][0]}  |  ${game[2][1]}  |  ${game[2][2]}');
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+//to input the x
+void input() {
+  String? numberOfField;
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+  numberOfField = stdin.readLineSync();
+
+//00 01 02
+//10 11 12
+//20 21 22
+
+//enter player's turn
+
+  if (numberOfField == '1') {
+    game[0][0] = player;
+  } else if (numberOfField == '2') {
+    game[0][1] = player;
+  } else if (numberOfField == '3') {
+    game[0][2] = player;
+  } else if (numberOfField == '4') {
+    game[1][0] = player;
+  } else if (numberOfField == '5') {
+    game[1][1] = player;
+  } else if (numberOfField == '6') {
+    game[1][2] = player;
+  } else if (numberOfField == '7') {
+    game[2][0] = player;
+  } else if (numberOfField == '8') {
+    game[2][1] = player;
+  } else if (numberOfField == '9') {
+    game[2][2] = player;
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
+//to switch between players
+void togglePlayer() {
+  if (player == 'X') {
+    print(' player (O),Press the number of the field:');
+    player = 'O';
+  } else {
+    print(' player (X),Press the number of the field:');
+    player = 'X';
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+//we will call this method every turn
+String winner() {
+  //first player
+//row
+  if (game[0][0] == 'X' && game[0][1] == 'X' && game[0][2] == 'X') {
+    //X  X  X
+    //10 11 12
+    //20 21 22
+    return 'X';
+  }
+  if (game[1][0] == 'X' && game[1][1] == 'X' && game[1][2] == 'X') {
+    //00 01 02
+    //X  X  X
+    //20 21 22
+    return 'X';
+  }
+  if (game[2][0] == 'X' && game[2][1] == 'X' && game[2][2] == 'X') {
+    //00 01 02
+    //10 11 12
+    //X  X  X
+    return 'X';
+  }
+  //column
+  if (game[0][0] == 'X' && game[1][0] == 'X' && game[2][0] == 'X') {
+    //00 01 02
+    //10 11 12
+    //20 21 22
+    return 'X';
+  }
+  if (game[0][1] == 'X' && game[1][1] == 'X' && game[2][1] == 'X') {
+    return 'X';
+  }
+  if (game[0][2] == 'X' && game[1][2] == 'X' && game[2][2] == 'X') {
+    return 'X';
+  }
+  //diagnal
+  if (game[0][0] == 'X' && game[1][1] == 'X' && game[2][2] == 'X') {
+    return 'X';
+  }
+  if (game[2][0] == 'X' && game[1][1] == 'X' && game[0][2] == 'X') {
+    //00 01 02
+    //10 11 12
+    //20 21 22
+    return 'X';
   }
 
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+  //second player
+  //row
+  if (game[0][0] == 'O' && game[0][1] == 'O' && game[0][2] == 'O') {
+    return 'O';
   }
+  if (game[1][0] == 'O' && game[1][1] == 'O' && game[1][2] == 'O') {
+    return 'O';
+  }
+  if (game[2][0] == 'O' && game[2][1] == 'O' && game[2][2] == 'O') {
+    return 'O';
+  }
+//column
+  if (game[0][0] == 'O' && game[1][0] == 'O' && game[2][0] == 'O') {
+    return 'O';
+  }
+  if (game[0][1] == 'O' && game[1][1] == 'O' && game[2][1] == 'O') {
+    return 'O';
+  }
+  if (game[0][2] == 'O' && game[1][2] == 'O' && game[2][2] == 'O') {
+    return 'O';
+  }
+
+  if (game[0][0] == 'O' && game[1][1] == 'O' && game[2][2] == 'O') {
+    return 'O';
+  }
+  if (game[2][0] == 'O' && game[1][1] == 'O' && game[0][2] == 'O') {
+    return 'O';
+  }
+
+  return '/';
+}
+
+int main(List<String> args) {
+  print('player (X),Press the number of the field:');
+  //present the structure
+  draw();
+//to loop the turn
+  while (true) {
+    //take the turn of each player
+    input();
+    //present the structure
+    draw();
+    //To find out who is the winner
+    if (winner() == 'X') {
+      print('');
+      print("Player (X) wins!");
+      break;
+    } else if (winner() == 'O') {
+      print("Player (O) wins!");
+      break;
+    }
+    togglePlayer();
+  }
+
+  return 0;
 }
